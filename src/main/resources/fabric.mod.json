@@ -1,0 +1,31 @@
+{
+  "schemaVersion": 1,
+  "id": "corvid",
+  "version": "${version}",
+  "name": "Corvid Skies",
+  "description": "Hey, this is my mod! enjoy and please dm me any bugs!",
+  "authors": [],
+  "contact": {},
+  "license": "MIT",
+  "icon": "assets/corvid/icon.png",
+  "environment": "*",
+  "entrypoints": {
+    "fabric-datagen": [
+      "FileDev.corvid.client.CorvidDataGenerator"
+    ],
+    "client": [
+      "FileDev.corvid.client.CorvidClient"
+    ],
+    "main": [
+      "FileDev.corvid.Corvid"
+    ]
+  },
+  "mixins": [
+    "corvid.mixins.json"
+  ],
+  "depends": {
+    "fabricloader": ">=${loader_version}",
+    "fabric-api": "*",
+    "minecraft": "${minecraft_version}"
+  }
+}
