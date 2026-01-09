@@ -17,6 +17,7 @@
       "FileDev.corvid.client.CorvidClient"
     ],
     "main": [
+      "FileDev.corvid.Corvid"
     ]
   },
   "mixins": [
