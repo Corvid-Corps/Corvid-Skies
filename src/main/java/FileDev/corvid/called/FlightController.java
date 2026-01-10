@@ -95,9 +95,10 @@ if (!player.isOnGround()) {
 
         if (movingUp.contains(player.getUuid())) {
             if (!movingDown.contains(player.getUuid()))
-            yVel = 1;
-            else yVel = 0.3;
+                yVel = 1;
         }
+            else yVel += 0.3;
+
 
 
         if (movingUp.contains(player.getUuid())){
