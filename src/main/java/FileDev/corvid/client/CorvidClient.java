@@ -7,6 +7,9 @@ import FileDev.corvid.called.FlightNetwork;
 
 public class CorvidClient implements ClientModInitializer {
 
+    private boolean lastUp = false;
+    private boolean lastDown = false;
+
     @Override
     public void onInitializeClient() {
         FlightKeybindsClient.register();
@@ -14,6 +17,15 @@ public class CorvidClient implements ClientModInitializer {
         ClientTickEvents.END_CLIENT_TICK.register(client -> {
             while (FlightKeybindsClient.TOGGLE_FLIGHT.wasPressed()) {
                 ClientPlayNetworking.send(new FlightNetwork.ToggleFlightPayload());
+            }
+
+            boolean up = FlightKeybindsClient.TOGGLE_FLIGHT_UP.isPressed();
+            boolean down = FlightKeybindsClient.TOGGLE_FLIGHT_DOWN.isPressed();
+
+            if (up != lastUp || down != lastDown) {
+                ClientPlayNetworking.send(new FlightNetwork.FlightMovePayload(up, down));
+                lastUp = up;
+                lastDown = down;
             }
         });
     }
