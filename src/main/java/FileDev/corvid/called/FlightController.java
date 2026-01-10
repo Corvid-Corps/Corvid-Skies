@@ -134,7 +134,7 @@ public class FlightController {
             player.velocityModified = true;
         } else if (movingDown.contains(uuid)) {
             if (!player.isOnGround()) {
-
+// test
                 yVel = -0.2;
                 double pitch = player.getPitch(1.0f);
                 if (pitch >= 25) yVel = player.getVelocity().y *-0.4;
