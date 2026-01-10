@@ -10,6 +10,7 @@ public class FlightKeybindsClient {
     public static KeyBinding TOGGLE_FLIGHT;
     public static KeyBinding TOGGLE_FLIGHT_UP;
     public static KeyBinding TOGGLE_FLIGHT_DOWN;
+    public static KeyBinding TOGGLE_FLIGHT_DASH;
 
     public static void register() {
         TOGGLE_FLIGHT = registerKeyBinding(new KeyBinding(
@@ -26,6 +27,12 @@ public class FlightKeybindsClient {
         ));
         TOGGLE_FLIGHT_DOWN = registerKeyBinding(new KeyBinding(
                 "key.corvid.toggle_flight_down",
+                InputUtil.Type.KEYSYM,
+                GLFW.GLFW_KEY_Y,
+                "category.corvid.controls"
+        ));
+        TOGGLE_FLIGHT_DASH = registerKeyBinding(new KeyBinding(
+                "key.corvid.toggle_flight_dash",
                 InputUtil.Type.KEYSYM,
                 GLFW.GLFW_KEY_Y,
                 "category.corvid.controls"

@@ -35,10 +35,21 @@ public class FlightNetwork {
         }
     }
 
+    public record DashPayload() implements CustomPayload {
+        public static final Id<DashPayload> ID = new Id<>(Identifier.of("corvid", "dash"));
+        public static final PacketCodec<RegistryByteBuf, DashPayload> CODEC = PacketCodec.unit(new DashPayload());
+
+        @Override
+        public Id<? extends CustomPayload> getId() {
+            return ID;
+        }
+    }
+
     /** Server-only: register the handler for when the client sends the toggle packet */
     public static void registerServerHandler() {
         PayloadTypeRegistry.playC2S().register(ToggleFlightPayload.ID, ToggleFlightPayload.CODEC);
         PayloadTypeRegistry.playC2S().register(FlightMovePayload.ID, FlightMovePayload.CODEC);
+        PayloadTypeRegistry.playC2S().register(DashPayload.ID, DashPayload.CODEC);
 
         ServerPlayNetworking.registerGlobalReceiver(ToggleFlightPayload.ID,
                 (payload, context) -> {
@@ -51,6 +62,12 @@ public class FlightNetwork {
                 (payload, context) -> {
                     ServerPlayerEntity player = context.player();
                     player.getServer().submit(() -> FlightController.updateMovement(player, payload.up(), payload.down()));
+                });
+
+        ServerPlayNetworking.registerGlobalReceiver(DashPayload.ID,
+                (payload, context) -> {
+                    ServerPlayerEntity player = context.player();
+                    player.getServer().submit(() -> FlightController.dash(player));
                 });
     }
 }
