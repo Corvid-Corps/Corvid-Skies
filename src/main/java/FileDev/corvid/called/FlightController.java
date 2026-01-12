@@ -41,11 +41,15 @@ public class FlightController {
     }
 
     public static void updateMovement(ServerPlayerEntity player, boolean up, boolean down) {
-        if (up) movingUp.add(player.getUuid());
-        else movingUp.remove(player.getUuid());
+        UUID uuid = player.getUuid();
+        if (up) {
+            movingUp.add(uuid);
+        } else {
+            movingUp.remove(uuid);
+        }
 
-        if (down) movingDown.add(player.getUuid());
-        else movingDown.remove(player.getUuid());
+        if (down) movingDown.add(uuid);
+        else movingDown.remove(uuid);
     }
 
     public static void dash(ServerPlayerEntity player) {
@@ -86,10 +90,12 @@ public class FlightController {
                             player.velocityModified = true;
                             dashCooldowns.put(uuid, 20);
                             dashTimers.put(uuid, 0);
-                            player.getCommandTags().remove("dashing");
+                            player.removeCommandTag("dashing");
                         }
                     }
                 }
+
+                
                 
                 int cooldown = dashCooldowns.getOrDefault(uuid, 0);
                 if (cooldown > 0) {
@@ -100,7 +106,7 @@ public class FlightController {
                 if (dashTimer > 0) {
                     dashTimers.put(uuid, dashTimer - 1);
                     if (dashTimer == 1) {
-                        player.getCommandTags().remove("dashing");
+                        player.removeCommandTag("dashing");
                     }
                 }
             }
@@ -124,35 +130,44 @@ public class FlightController {
         UUID uuid = player.getUuid();
         Vec3d look = player.getRotationVec(1.0f);
         double xVel, yVel, zVel;
+        xVel = look.x * 0.8;
+        zVel = look.z * 0.8;
+        yVel = look.y * 0.2;
+
+
+
 
         if (movingUp.contains(uuid)) {
             // Ascending
-            yVel = 0.4;
-            xVel = look.x * 0.5;
-            zVel = look.z * 0.5;
-            player.setVelocity(xVel, yVel, zVel);
+            yVel = 0.6;
+
+            player.setVelocity(player.getVelocity().x, yVel, player.getVelocity().z);
             player.velocityModified = true;
         } else if (movingDown.contains(uuid)) {
             if (!player.isOnGround()) {
-// test
-                yVel = -0.2;
+                double aero = 1;
                 double pitch = player.getPitch(1.0f);
-                if (pitch >= 25) yVel = player.getVelocity().y *-0.4;
-                if (pitch >= 40) yVel = player.getVelocity().y *-0.6;
-                if (pitch >= 55) yVel = player.getVelocity().y *-0.8;
-                if (pitch >= 65) yVel = player.getVelocity().y *-1.3;
-                if (pitch >= 75) yVel = player.getVelocity().y *-1.7;
-                if (pitch >= 90) yVel = player.getVelocity().y * -2.2;
 
 
-                xVel = look.x * 0.5;
-                if(pitch > 0)
-                xVel = look.x * pitch * 0.08;
-                zVel = look.z * pitch * 0.08 ;
+                if(pitch >= 0 && pitch <= 10) aero += .4;
+                if(pitch > 10 && pitch <= 20) aero += .3;
+                if(pitch > 20 && pitch <= 30) aero += .2;
+                if(pitch > 30 && pitch <= 40) aero += .1;
+                if(pitch > 40 && pitch <= 50) aero -= 0;
+                if(pitch > 50 && pitch <= 60) aero -= .1;
+                if(pitch > 60 && pitch <= 70) aero -= .2;
+                if(pitch > 70 && pitch <= 80) aero -= .3;
+                if(pitch > 80 && pitch <= 90) aero -= .4;
+
+                yVel = look.y * aero;
+                xVel = look.x * aero;
+                zVel = look.z * aero;
+
+
 
                 player.setVelocity(xVel, yVel, zVel);
                 player.velocityModified = true;
-            }
+                }
         }
 
 

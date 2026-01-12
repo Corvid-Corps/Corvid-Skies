@@ -8,7 +8,6 @@ import static net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper.regi
 
 public class FlightKeybindsClient {
     public static KeyBinding TOGGLE_FLIGHT;
-    public static KeyBinding TOGGLE_FLIGHT_UP;
     public static KeyBinding TOGGLE_FLIGHT_DOWN;
     public static KeyBinding TOGGLE_FLIGHT_DASH;
 
@@ -17,12 +16,6 @@ public class FlightKeybindsClient {
                 "key.corvid.toggle_flight",
                 InputUtil.Type.KEYSYM,
                 GLFW.GLFW_KEY_F,
-                "category.corvid.controls"
-        ));
-        TOGGLE_FLIGHT_UP = registerKeyBinding(new KeyBinding(
-                "key.corvid.toggle_flight_up",
-                InputUtil.Type.KEYSYM,
-                GLFW.GLFW_KEY_N,
                 "category.corvid.controls"
         ));
         TOGGLE_FLIGHT_DOWN = registerKeyBinding(new KeyBinding(

@@ -23,7 +23,7 @@ public class CorvidClient implements ClientModInitializer {
                 ClientPlayNetworking.send(new FlightNetwork.DashPayload());
             }
 
-            boolean up = FlightKeybindsClient.TOGGLE_FLIGHT_UP.isPressed();
+            boolean up = client.options.jumpKey.isPressed();
             boolean down = FlightKeybindsClient.TOGGLE_FLIGHT_DOWN.isPressed();
 
             if (up != lastUp || down != lastDown) {
