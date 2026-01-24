@@ -1,9 +1,10 @@
 {
   "required": true,
   "minVersion": "0.8",
-  "package": "FileDev.corvid.client",
-  "compatibilityLevel": "JAVA_17",
-  "client": [
+  "package": "FileDev.corvid.client.mixin",
+  "compatibilityLevel": "JAVA_21",
+  "mixins": [
+    "PlayerEntityModelMixin"
   ],
   "injectors": {
     "defaultRequire": 1

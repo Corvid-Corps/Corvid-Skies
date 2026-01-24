@@ -21,6 +21,7 @@
     ]
   },
   "mixins": [
+    "corvid.mixins.json"
   ],
   "depends": {
     "fabricloader": ">=${loader_version}",
