@@ -10,32 +10,30 @@ import software.bernie.geckolib.util.GeckoLibUtil;
 import java.util.function.Consumer;
 
 public class FileWings extends Item implements GeoItem {
-    private final AnimatableInstanceCache cache = GeckoLibUtil.createInstanceCache(this);
+    private final AnimatableInstanceCache geoCache = GeckoLibUtil.createInstanceCache(this);
 
-    public FileWings(Settings settings) {
-        super(settings);
+    public FileWings(Properties properties) {
+        super(properties);
     }
-
     @Override
     public void createGeoRenderer(Consumer<GeoRenderProvider> consumer) {
         consumer.accept(new GeoRenderProvider() {
-            private FileWingsRenderer renderer;
+            private final Supplier<GeoItemRenderer<ExampleItem>> renderer = Suppliers.memoize(() -> new GeoItemRenderer<>(ExampleItem.this));
 
-            public Object getCustomRenderer() {
-                if (this.renderer == null)
-                    this.renderer = new FileWingsRenderer();
-
-                return this.renderer;
+            @Override
+            public @Nullable GeoItemRenderer<ExampleItem> getGeoItemRenderer() {
+                return this.renderer.get();
             }
         });
     }
 
     @Override
-    public void registerControllers(AnimatableManager.ControllerRegistrar controllers) {
+    public void registerControllers(final AnimatableManager.ControllerRegistrar controllers) {
+
     }
 
     @Override
     public AnimatableInstanceCache getAnimatableInstanceCache() {
-        return this.cache;
+        return this.geoCache;
     }
 }
